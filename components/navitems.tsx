@@ -3,7 +3,7 @@ import { cn } from '@/lib/utils';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import React from 'react'
-const Navitem = [{label:'Home', href:'/'}, {label:'Companions', href:'/companions'}, {label:'My Journey', href:'/my-journey'}, {label:'Sign In', href:'/sign-in    '}] ;
+const Navitem = [{label:'Home', href:'/'}, {label:'Companions', href:'/companions'}, {label:'My Journey', href:'/my-journey'}] ;
 
 const Navitems = () => {
     const pathname = usePathname();
