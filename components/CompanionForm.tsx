@@ -27,7 +27,8 @@ import { Input } from "@/components/ui/input"
 import React from 'react'
 import { subjects } from "@/constants"
 import { Textarea } from "./ui/textarea"
-
+import { createCompanion } from "@/lib/actions/companion.action"
+import { redirect } from "next/navigation"
 const CompanionForm = () => {
       // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
@@ -43,8 +44,16 @@ const CompanionForm = () => {
   })
  
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values)
+  async function onSubmit (values: z.infer<typeof formSchema>) {
+    {/* Insert to Supabase */}
+
+    const companion = await createCompanion(values);
+    if(companion){
+      redirect(`/companions/${companion.id}`)
+    }else{
+      console.log("Failed to create companion")
+      redirect('/')
+    }
   }
   return (
     <div>
