@@ -24,18 +24,18 @@ async function page({ params } : CompanionComponentProps) {
         <main>
             <article className='flex rounded-border justify-between p-6 max-md:flex-col'>
                 <div className='flex items-center gap-2'>
-                    <div className='size-[72px] flex items-center justify-center rounded-lg max-md:hidden' style={{backgroundColor: getSubjectColor(subject)}}>
+                    <div className='size-[72px]  flex items-center justify-center rounded-lg max-md:hidden' style={{backgroundColor: getSubjectColor(subject)}}>
                         <Image src={`/icons/${subject}.svg`} alt='subject' width={35} height={35} />
                     </div>
                     <div className='flex flex-col gap-2'>
                         <div className='flex items-center gap-2'>
-                            <p className='text-2xl font-semibold'>{name}</p>
+                            <p className='text-2xl font-semibold ml-[15px]'>{name}</p>
                             <div className='subject-badge max-sm:hidden'>
                             {subject}   
                             </div>
                         </div>
                        
-                        <p className='text-lg'>{topic}</p>
+                        <p className='text-lg w-[80%]  ml-[15px]'>{topic}</p>
                     </div>
                 </div>
                 <div className='item-center text-2xl max-md:hidden'>
@@ -45,15 +45,15 @@ async function page({ params } : CompanionComponentProps) {
             <CompanionComponent
             subject={subject}
             name={name}
-            title={title}
             topic={topic}
-            duration={duration}
+            voice={''}
+            style={''}
             companionId={id}
             userName={user.firstName!}
             userImage={user.imageUrl!}
             />
         </main>
-    )
+    )   
 }
 
 export default page
