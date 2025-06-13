@@ -1,9 +1,10 @@
 import React from 'react'
 
-const componentSeession = () => {
-  return (
-    <div>componentSeession</div>
-  )
+function page({params}: {params: {id: string}}) {
+    const {id} = params;
+    return (
+        <div>Session Labrary</div>
+    )
 }
 
-export default componentSeession
+export default page

@@ -15,11 +15,12 @@ const CompanionCard = ({id, name, topic, subject, duration, color}: CompanionCar
     <article  className='companion-card' style={{backgroundColor: color}}>
         <div className='flex justify-between items-center'>
           <div className='subject-badge'>{subject}</div>
-          <Button className='companion-bookmark'>
-            <Image src='/icons/bookmark.svg' alt='bookmark' width={24} height={24} />
+          <Button className='companion-bookmark p-0'>
+            <Image src='/icons/bookmark.svg' alt='bookmark' width={24} height={24} className='w-6 h-6' />
           </Button>
         </div>
         <h2 className='text-2xl'>{name}</h2>
+        <p>{topic.slice(0, 50)}...</p>
         <div className='flex items-center gap-2'>
           <Image src='/icons/clock.svg' alt='duration' width={14.5} height={14.5} />
           <p className='texsm'>{duration} minutes</p>
