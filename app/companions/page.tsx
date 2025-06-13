@@ -1,10 +1,12 @@
 import CompanionCard from '@/components/CompanionCard';
 import { getAllCompanions } from '@/lib/actions/companion.action';
+import { Filter } from 'lucide-react';
+import React from 'react'
 import { getSubjectColor } from '@/lib/utils';
 import SearchInput from '@/components/SearchInput';
 import Subjectfilter from '@/components/Subjectfilter';
 
-const page = async ({searchParams}: {searchParams: {subject?: string , topic?: string}}) => {
+const page = async ({searchParams}: SearchParams) => {
   const filterParams = await searchParams;
   const subject = filterParams.subject ? filterParams.subject : '';
   const topic = filterParams.topic ? filterParams.topic : '';
