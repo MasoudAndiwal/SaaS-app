@@ -29,7 +29,7 @@ const CompanionList =({title , compions , className}: CompanionsListProps) => {
              </TableRow>
           </TableHeader>
           <TableBody>
-            {compions?.map(({id,index, name, topic, subject, duration}) => (
+            {compions?.map(({id, name, topic, subject, duration}) => (
                 <TableRow key={id}>
                     <TableCell>
                         <Link href={`/companions/${id}`}>

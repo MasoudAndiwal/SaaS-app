@@ -21,11 +21,11 @@ const Page = async () => {
         />
       ))}
      </section>
-     <section className='home-section !items-start '>   
+     <section className='home-section items-start'>   
       <CompanionList
       title="Recenty Completed sessions"
       compions={recentSessionsCompanions}
-      className='w-2/3 max-lg:w-full '
+      className='w-2/3 max-lg:w-full !items-start'
       />
       <CTA />
      </section>

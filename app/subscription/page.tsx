@@ -3,9 +3,9 @@ import React from 'react'
 
 const subscription = () => {
   return (
-    <div className='flex justify-center items-center '>
+    <main className='flex justify-center items-center '>
       <PricingTable />
-       </div>
+       </main>
   )
 }
 
