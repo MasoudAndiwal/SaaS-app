@@ -1,4 +1,3 @@
-// @ts-nocheck
 'use client'
 import React, { useEffect, useRef, useState } from 'react'
 import { cn, configureAssistant, getSubjectColor } from '@/lib/utils'
@@ -8,9 +7,11 @@ import Lottie, { LottieRefCurrentProps } from 'lottie-react'
 import soundwaves from '@/constants/soundwaves.json'
 import type {Message} from '@vapi-ai/web'
 import type {SavedMessage} from '@/types'
+import { addToSessionHistory } from '@/lib/actions/companion.action'
 import { useRouter } from 'next/navigation'
 
 
+// enum for check the button status
 enum CallStatus {
     INACTIVE = 'INACTIVE',
     CONNECTING = 'CONNECTING',
@@ -23,27 +24,31 @@ const CompanionComponent = ({ companionId, subject, topic, name, userName, userI
     const [isSpeaking, setIsSpeaking] = useState(false)
     const [isMuted, setIsMuted] = useState(false)
     const [messages, setMessages] = useState<SavedMessage[]>([])
-
+    // the start , stop vapi , message , or .... etc useeffect
     useEffect(() => {
         const onCallStart = () => setCallStatus(CallStatus.ACTIVE)
-        const onCallEnd = () => setCallStatus(CallStatus.FINISHED)
+        const onCallEnd = () => {
+            setCallStatus(CallStatus.FINISHED)
+            addToSessionHistory(companionId)
+        }
+        const onError = (error: Error) => console.log(error)
+        const onSpeechStart = () => setIsSpeaking(true)
+        const onSpeechEnd = () => setIsSpeaking(false)
+        // message handler 
         const onMessage = (message: Message) => {
             if (message.type === 'transcript' && message.transcriptType === 'final') {
                 const newMessage = { role: message.role, content: message.transcript }
                 setMessages((prev) => [newMessage, ...prev])
             }
         }
-        const onError = (error: Error) => console.log(error)
-        const onSpeechStart = () => setIsSpeaking(true)
-        const onSpeechEnd = () => setIsSpeaking(false)
-
+        // vapi start 
         vapi.on('call-start', onCallStart)
         vapi.on('call-end', onCallEnd)
         vapi.on('message', onMessage)
         vapi.on('error', onError)
         vapi.on('speech-start', onSpeechStart)
         vapi.on('speech-end', onSpeechEnd)
-
+        // return the vapi stop 
         return () => {
             vapi.off('call-start', onCallStart)
             vapi.off('call-end', onCallEnd)
@@ -53,7 +58,7 @@ const CompanionComponent = ({ companionId, subject, topic, name, userName, userI
             vapi.off('speech-end', onSpeechEnd)
         }
     }, [])
-
+    // check the lottieref if ai speack run or not 
     const lottieRef = useRef<LottieRefCurrentProps>(null)
     useEffect(() => {
         if (lottieRef) {
@@ -61,13 +66,13 @@ const CompanionComponent = ({ companionId, subject, topic, name, userName, userI
             else lottieRef.current?.stop()
         }
     }, [isSpeaking, lottieRef]);
-
+    // toggle microphone to mute and unmute 
     const toggleMicrophone = () => {
         const muted = vapi.isMuted()
         vapi.setMuted(!muted)
         setIsMuted(!muted)
     }
-
+    // start button handler
     const handleCall = async () => {
         setCallStatus(CallStatus.CONNECTING)
         const assistantOverrides = {
@@ -78,15 +83,15 @@ const CompanionComponent = ({ companionId, subject, topic, name, userName, userI
         // @ts-expect-error
         vapi.start(configureAssistant(voice, style), assistantOverrides)
     }
+    const router = useRouter()
 
-    const router = useRouter();
-
+    // end button hudler
     const handleDisconnect = () => {
         setCallStatus(CallStatus.FINISHED);
         vapi.stop();
         router.push('/');
     }
-
+    // the UI 
     return (
         <section className='flex flex-col h-[90vh]'>
             <section className='flex gap-8 max-sm:flex-col max-sm:items-center'>

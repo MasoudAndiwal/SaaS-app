@@ -1,6 +1,7 @@
 'use server'
 import { auth } from "@clerk/nextjs/server"
 import { createSupabaseClient } from "../supabase";
+import { fa } from "zod/v4/locales";
 
 export const createCompanion = async (formatData : CreateCompanion) => {
     const { userId : authid} = await auth();
@@ -37,8 +38,34 @@ export const getAllCompanions = async ({limit = 10 , page = 1 ,subject, topic }:
 export const getCompanion = async (id : string) =>{
     const supabase = createSupabaseClient();
     const { data , error } = await supabase.from('Companions').select().eq('id',id).single();
-    if( error){
-        throw new Error(error?.message || "Failed to fetch companion");
-    }
-    return data;
+    if( error) throw new Error(error?.message || "Failed to fetch companion") 
+        return data;
 }
+    // insert the companion id , user id into the session_history
+export const addToSessionHistory = async (companionId : string) => {
+    const { userId } = await auth();
+    const supabase = createSupabaseClient();
+    const { data , error } = await supabase.from('session_history').insert({
+        user_id: userId , companion_id: companionId })
+
+    if(error) throw new Error(error.message)
+        return data ;   
+}
+    // getRecentSessions
+export const getRecentSessions = async (limit = 10 ) => {
+    const supabase = createSupabaseClient();
+    const  {data , error } = await supabase.from('session_history').select(`Companions:companion_id (*)`).order('created_at' , {ascending: false})
+
+    if(error) throw new Error(error.message)
+
+    return data.map(({ Companions }) => Companions);
+}
+    // getUserSessionHistory
+    export const getUserSession = async (userId: string,limit = 10 ) => {
+        const supabase = createSupabaseClient();
+        const  {data , error } = await supabase.from('session_history').select(`Companions:companion_id (*)`).order('created_at' , {ascending: false}).eq('user_id' , userId)
+    
+        if(error) throw new Error(error.message)
+    
+        return data.map(({ Companions }) => Companions);
+    }

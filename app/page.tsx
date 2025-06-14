@@ -1,50 +1,35 @@
 import { Button } from '@/components/ui/button'
 import CompanionCard from '@/components/CompanionCard'
-import CompanionList from '@/components/CompanionList'
 import CTA from '@/components/Cta'
-import { recentSessions } from '@/constants'
+import { auth } from '@clerk/nextjs/server'
+import { getAllCompanions, getRecentSessions } from '@/lib/actions/companion.action'
+import { getSubjectColor } from '@/lib/utils'
+import CompanionList from '@/components/CompanionList'
 
-const Page = () => {
+const Page = async () => {
+    const companions = await  getAllCompanions({limit : 2})
+    const recentSessionsCompanions = await getRecentSessions(10);
   return (
-    <div className='mt-14'>
-     <h1 className='text-center'>Popular Companions</h1>
-
+    <main className=''>
+     <h1 className='text-left'>Popular Companions</h1>
      <section className='home-section'>
-
-      <CompanionCard 
-      id='123'
-      name='Neura the Brainy Explorer'
-      topic = 'Neural Network of the Brain'
-      subject = 'science'
-      duration={45}
-      color="#E5D0FF"
-      />
-      <CompanionCard 
-      id='1234'
-      name='Countsy the Number Wizard '
-      topic = 'Derivatives & integrals'
-      subject = 'math'
-      duration={35}
-      color="#BDE7FF"
-      />
-      <CompanionCard 
-      id='12345'
-      name='Verba the Vocabulary Builder'
-      topic = 'English Literature'
-      subject = 'language'
-      duration={20}
-      color="#FFC8E4"
-      />
-     
+      {companions.map((companion ) => (
+        <CompanionCard 
+        key={companion.id}
+        {...companion}
+        color={getSubjectColor(companion.subject)}
+        />
+      ))}
      </section>
-     <section className='home-section '>
-      <CompanionList 
-        title='Recently complete sessins'
-        compions={recentSessions}
+     <section className='home-section !items-start '>   
+      <CompanionList
+      title="Recenty Completed sessions"
+      compions={recentSessionsCompanions}
+      className='w-2/3 max-lg:w-full '
       />
       <CTA />
      </section>
-    </div>
+    </main>
   )
 }
 
