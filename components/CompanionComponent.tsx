@@ -8,6 +8,7 @@ import Lottie, { LottieRefCurrentProps } from 'lottie-react'
 import soundwaves from '@/constants/soundwaves.json'
 import type {Message} from '@vapi-ai/web'
 import type {SavedMessage} from '@/types'
+import { useRouter } from 'next/navigation'
 
 
 enum CallStatus {
@@ -78,13 +79,16 @@ const CompanionComponent = ({ companionId, subject, topic, name, userName, userI
         vapi.start(configureAssistant(voice, style), assistantOverrides)
     }
 
+    const router = useRouter();
+
     const handleDisconnect = () => {
-        setCallStatus(CallStatus.FINISHED)
-        vapi.stop()
+        setCallStatus(CallStatus.FINISHED);
+        vapi.stop();
+        router.push('/');
     }
 
     return (
-        <section className='flex flex-col h-[100vh]'>
+        <section className='flex flex-col h-[90vh]'>
             <section className='flex gap-8 max-sm:flex-col max-sm:items-center'>
                 <div className='companion-section'>
                     <div className='companion-avatar' style={{ backgroundColor: getSubjectColor(subject) }}>
