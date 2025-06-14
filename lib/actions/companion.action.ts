@@ -60,12 +60,34 @@ export const getRecentSessions = async (limit = 10 ) => {
 
     return data.map(({ Companions }) => Companions);
 }
-    // getUserSessionHistory
-    export const getUserSession = async (userId: string,limit = 10 ) => {
+    // get the all companion for the My Journey page 
+    export const getUserCompanion = async (userId: string) => {
         const supabase = createSupabaseClient();
-        const  {data , error } = await supabase.from('session_history').select(`Companions:companion_id (*)`).order('created_at' , {ascending: false}).eq('user_id' , userId)
-    
-        if(error) throw new Error(error.message)
-    
-        return data.map(({ Companions }) => Companions);
-    }
+      
+        const { data, error } = await supabase
+          .from('Companions')
+          .select('*') // بهتره مشخص کنی که کدام ستون‌ها را می‌خواهی
+          .eq('author', userId);
+      
+        if (error) {
+          console.error('Supabase error:', error); // برای دیباگ بهتر
+          throw new Error(error.message);
+        }
+      
+        return data;
+      };
+      
+
+export const getUserSessions = async (userId: string, limit = 10) => {
+    const supabase = createSupabaseClient();
+    const { data, error } = await supabase
+        .from('session_history')
+        .select(`companions:companion_id (*)`)
+        .eq('user_id', userId)
+        .order('created_at', { ascending: false })
+        .limit(limit)
+
+    if(error) throw new Error(error.message);
+
+    return data.map(({ companions }) => companions);
+}
