@@ -19,7 +19,7 @@ interface CompanionsListProps {
 const CompanionList =({title , compions , className}: CompanionsListProps) => {
   return (
     <article className={cn('companion-list', className)}>
-       <h2 className="font-black text-3xl">{title}</h2>
+       <p className="font-black text-3xl max-sm:text-center">{title}</p>
        <Table>
           <TableHeader>
             <TableRow>
@@ -33,22 +33,22 @@ const CompanionList =({title , compions , className}: CompanionsListProps) => {
                 <TableRow key={id}>
                     <TableCell>
                         <Link href={`/companions/${id}`}>
-                            <div className="flex items-center gap-2">
-                                <div className="size-[72px] flex items-center justify-center rounded-lg max-md:hidden" style={{backgroundColor: getSubjectColor(subject)}}>
+                            <div className="flex items-center gap-2 w-full">
+                                <div className="size-[72px] flex items-center justify-center rounded-lg max-md:hidden max-sm:flex size-[52px]" style={{backgroundColor: getSubjectColor(subject)}}>
                                     <Image src={`/icons/${subject}.svg`} alt={subject} width={35} height={35} />
                                 </div>
                               <div className="flex flex-col gap-2">
-                                <p className="font-bold text-2xl">{name}</p>
-                                <p className="text-lg">{ topic ? `${topic.slice(0, 25)}${topic.length > 25 ? '...' : ''}` : 'No topic' }</p>
+                                <p className="font-bold text-2xl max-sm:hidden">{name}</p>
+                                <p className="text-lg max-sm:hidden">{ topic ? `${topic.slice(0, 25)}${topic.length > 25 ? '...' : ''}` : 'No topic' }</p>
                               </div>
                             </div>
                         </Link>
                     </TableCell>
                     <TableCell>
-                      <div className="subject-badge w-fit max-md:hidden">
+                      <div className="subject-badge w-fit max-md:hidden max-sm:flex">
                       {subject}
                       </div>
-                      <div className="flex items-center justify-center rounded-lg w-fit p-2 md:hidden" style={{backgroundColor: getSubjectColor(subject)}}>
+                      <div className="flex items-center justify-center rounded-lg w-fit p-2 md:hidden max-sm:hidden" style={{backgroundColor: getSubjectColor(subject)}}>
                       <Image src={`/icons/${subject}.svg`} alt={subject} width={18} height={18} />
                       </div>
                     </TableCell>

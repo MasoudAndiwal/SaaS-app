@@ -12,7 +12,7 @@ const Page = async () => {
     const recentSessionsCompanions = await getRecentSessions(10);
   return (
     <main className=''>
-     <h1 className='text-left'>Popular Companions</h1>
+     <h1 className='max-sm:text-center'>Popular Companions</h1>
      <section className='home-section'>
       {companions.map((companion ) => (
         <CompanionCard 
@@ -22,11 +22,11 @@ const Page = async () => {
         />
       ))}
      </section>
-     <section className='home-section items-start'>   
+     <section className='home-section items-start max-sm:items-center'>   
       <CompanionList
       title="Recenty Completed sessions"
       compions={recentSessionsCompanions}
-      className='w-2/3 max-lg:w-full !items-start'
+      className='w-2/3 max-lg:w-full !items-start max-sm:w-[333px] max-sm:items-center'
       />
       <CTA />
      </section>

@@ -88,8 +88,8 @@
 body {
   font-family: var(--font-bricolage);
 }
-.cl-internal-1dauvpw , .cl-internal-1hp5nqm{
-  display: none;
+.cl-internal-1dauvpw , .cl-internal-1hp5nqm , .cl-internal-1ez87od , .cl-internal-8y3r03 , .cl-internal-1ep5x45 {
+  display: none !important;
 }
 
 .dark {
