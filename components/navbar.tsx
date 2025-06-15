@@ -26,7 +26,7 @@ const Navbar = () => {
               <UserButton />
           </SignedIn>
         </div>
-        <div className='hidden md:flex items-center  cursor-pointer '>
+        <div className='hidden md:flex items-center  cursor-pointer gap-3 '>
           <Navbaritems />
           <SignedOut>
             <SignInButton>

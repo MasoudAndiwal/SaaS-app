@@ -26,7 +26,7 @@ const Page = async () => {
       <CompanionList
       title="Recenty Completed sessions"
       compions={recentSessionsCompanions}
-      className='w-2/3 max-lg:w-full !items-start max-sm:w-[333px] max-sm:items-center'
+      className='w-2/3 max-lg:w-full !items-start  max-sm:items-center'
       />
       <CTA />
      </section>
