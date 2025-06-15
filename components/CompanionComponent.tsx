@@ -21,6 +21,7 @@ enum CallStatus {
 }
 
 const CompanionComponent = ({ companionId, subject, topic, name, userName, userImage, style, voice }: CompanionComponentProps) => {
+    const router = useRouter();
     const [callStatus, setCallStatus] = useState<CallStatus>(CallStatus.INACTIVE)
     const [isSpeaking, setIsSpeaking] = useState(false)
     const [isMuted, setIsMuted] = useState(false)
@@ -31,6 +32,7 @@ const CompanionComponent = ({ companionId, subject, topic, name, userName, userI
         const onCallEnd = () => {
             setCallStatus(CallStatus.FINISHED)
             addToSessionHistory(companionId)
+            router.push('/')
         }
         const onError = (error: Error) => console.log(error)
         const onSpeechStart = () => setIsSpeaking(true)
@@ -84,7 +86,7 @@ const CompanionComponent = ({ companionId, subject, topic, name, userName, userI
         // @ts-expect-error
         vapi.start(configureAssistant(voice, style), assistantOverrides)
     }
-    const router = useRouter()
+    
 
     // end button hudler
     const handleDisconnect = () => {

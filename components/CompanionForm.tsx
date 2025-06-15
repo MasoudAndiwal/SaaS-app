@@ -3,7 +3,7 @@
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
-
+import { toast } from "sonner"
 import {
     Select,
     SelectContent,
@@ -49,9 +49,10 @@ const CompanionForm = () => {
 
     const companion = await createCompanion(values);
     if(companion){
+      toast("Companion created successfully")
       redirect(`/companions/${companion.id}`)
     }else{
-      console.log("Failed to create companion")
+      toast("Failed to create companion")
       redirect('/')
     }
   }

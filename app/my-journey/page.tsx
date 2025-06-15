@@ -1,5 +1,5 @@
 import {Accordion,AccordionContent,AccordionItem,AccordionTrigger} from "@/components/ui/accordion"
-import { getRecentSessions, getUserCompanion, getUserSessions } from "@/lib/actions/companion.action"
+import { getRecentSessions, getSavedCompanion, getUserCompanion, getUserSessions } from "@/lib/actions/companion.action"
 import { currentUser } from "@clerk/nextjs/server"
 import CompanionsList from "@/components/CompanionList"
 import Image from "next/image"
@@ -9,6 +9,7 @@ const profile = async () => {
   if(!user) redirect('/sign-in')
     const companions = await getUserCompanion(user.id)
     const sessionHistory = await getUserSessions(user.id)
+    const savedCompanions = await getSavedCompanion(user.id)
   return (
     <main className="min-lg:w-3/4">
       <section className="flex justify-between gap-4 max-sm:flex-col items-center">
@@ -55,6 +56,13 @@ const profile = async () => {
           <AccordionTrigger className="text-2xl font-bold ">My Companions </AccordionTrigger>
           <AccordionContent>
             <CompanionsList title='My Companions' compions={companions}/>
+          </AccordionContent>
+          </AccordionItem>
+          {/* ------- */}
+          <AccordionItem value="Saved Companions">
+          <AccordionTrigger className="text-2xl font-bold ">Saved Companions </AccordionTrigger>
+          <AccordionContent>
+            <CompanionsList title='Saved Companions' compions={savedCompanions}/>
           </AccordionContent>
           </AccordionItem>
         </Accordion>

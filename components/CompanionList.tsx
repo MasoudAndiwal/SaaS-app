@@ -39,7 +39,7 @@ const CompanionList =({title , compions , className}: CompanionsListProps) => {
                                 </div>
                               <div className="flex flex-col gap-2">
                                 <p className="font-bold text-2xl">{name}</p>
-                                <p className="text-lg">{topic.length > 25 ? `${topic.slice(0, 25)}...` : topic}</p>
+                                <p className="text-lg">{ topic ? `${topic.slice(0, 25)}${topic.length > 25 ? '...' : ''}` : 'No topic' }</p>
                               </div>
                             </div>
                         </Link>

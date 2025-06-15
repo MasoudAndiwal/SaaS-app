@@ -114,5 +114,53 @@ export const newCompanionPermissions = async () => {
     }else{
         return true
     }
+}
+// insert the Saved Companion in supabase 
 
+export const saveCompanion = async (companionId : string) => {
+    const { userId } = await auth()
+    const supabase = createSupabaseClient()
+    const { data , error } = await supabase.from('save_Companion').insert({userid : userId , companionid : companionId})
+    if(error) throw new Error(error.message) 
+    return data
+}
+
+// select the all rows on save_Companion
+export const getSavedCompanion = async (uid?: string) => {
+    const { userId: authId } = await auth();
+    const userId = uid || authId;
+    const supabase = createSupabaseClient();
+
+    const { data, error } = await supabase
+        .from('save_Companion')
+        .select(`Companions:companionid(*)`)
+        .eq('userid', userId);
+
+    if (error) throw new Error(error.message);
+
+    // Map to actual companion objects
+    return (data ?? []).map(({ Companions }) => Companions);
+}
+
+// check if companion saved for current user
+export const isCompanionSaved = async (companionId: string): Promise<boolean> => {
+    const { userId } = await auth();
+    const supabase = createSupabaseClient();
+    const { data, error } = await supabase
+        .from('save_Companion')
+        .select('id')
+        .eq('userid', userId)
+        .eq('companionid', companionId)
+        .maybeSingle();
+    if (error && error.code !== 'PGRST116') throw new Error(error.message);
+    return !!data;
+};
+
+// delete the row on supabase 
+export const deleteSavedCompanion = async (companionId : string) => {
+    const { userId } = await auth()
+    const supabase = createSupabaseClient()
+    const { data , error } = await supabase.from('save_Companion').delete().eq('userid', userId).eq('companionid', companionId)
+    if(error) throw new Error(error.message) 
+    return data
 }
