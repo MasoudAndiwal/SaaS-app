@@ -1,7 +1,8 @@
-import { Button } from '@/components/ui/button'
 import CompanionCard from '@/components/CompanionCard'
+
+// Force dynamic rendering because this page uses headers (e.g., Clerk/Supabase auth) which prevents static generation
+export const dynamic = "force-dynamic";
 import CTA from '@/components/Cta'
-import { auth } from '@clerk/nextjs/server'
 import { getAllCompanions, getRecentSessions } from '@/lib/actions/companion.action'
 import { getSubjectColor } from '@/lib/utils'
 import CompanionList from '@/components/CompanionList'
