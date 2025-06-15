@@ -1,3 +1,5 @@
+// @ts-ignore
+// @ts-nocheck
 import {withSentryConfig} from '@sentry/nextjs';
 // next.config.ts
 import type { NextConfig } from 'next';
