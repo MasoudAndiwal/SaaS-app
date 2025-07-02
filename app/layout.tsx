@@ -1,43 +1,39 @@
 import type { Metadata } from "next";
-import { Bricolage_Grotesque } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
-import Navbar from "../components/navbar";
-import { Toaster } from "@/components/ui/sonner"
+import { Navbar } from "@/components/layout/navbar";
+import { Footer } from "@/components/layout/footer";
 
-const bricolage = Bricolage_Grotesque({
-  variable: "--font-bricolage",
-  subsets: ["latin"],
-});
-import { ClerkProvider } from '@clerk/nextjs'
+const inter = Inter({ subsets: ["latin"] });
+
 export const metadata: Metadata = {
-  title: "Converso",
-  description: "Real-time AI Teaching Platform",
+  title: "EstateFlow - Modern Real Estate Platform",
+  description: "Find your dream home with our modern real estate platform. Buy, sell, and rent properties with ease.",
+  keywords: ["real estate", "homes", "buy", "sell", "rent", "properties"],
+  authors: [{ name: "EstateFlow" }],
+  openGraph: {
+    title: "EstateFlow - Modern Real Estate Platform",
+    description: "Find your dream home with our modern real estate platform",
+    type: "website",
+  },
 };
 
-  /**
-   * The root layout component.
-   *
-   * This component wraps the entire app and handles things like the global font
-   * and the Clerk authentication provider.
-   *
-   * @param {React.ReactNode} children - The children to be rendered inside the root layout.
-   * @returns {JSX.Element} - The root layout.
-   */
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
-    <ClerkProvider appearance={{variables:{colorPrimary: '#fe5933'}}} >
-      <html lang="en">
-        <body className={`${bricolage.variable} antialiased`}>
+    <html lang="en" className="scroll-smooth">
+      <body className={`${inter.className} antialiased`}>
+        <div className="flex min-h-screen flex-col">
           <Navbar />
-          {children}
-          <Toaster />
-        </body>
-        
-      </html>
-    </ClerkProvider>
+          <main className="flex-1">
+            {children}
+          </main>
+          <Footer />
+        </div>
+      </body>
+    </html>
   );
 }
